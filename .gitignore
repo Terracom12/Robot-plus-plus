@@ -1,0 +1,7 @@
+.vscode
+competitions
+*_files
+
+*.html
+
+!docs/documentation.html
