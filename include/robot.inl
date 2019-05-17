@@ -1,24 +1,24 @@
 /*
-* Copyright (c) 2019 Matthew Reese                            
-*                                                                      
+* Copyright (c) 2019 Matthew Reese
+*
 * Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the      
-* "Software"), to deal in the Software without restriction, including  
-* without limitation the rights to use, copy, modify, merge, publish,  
-* distribute, sublicense, and/or sell copies of the Software, and to   
+* a copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
 * permit persons to whom the Software is furnished to do so, subject to
-* the following conditions:                                            
-*                                                                      
-* The above copyright notice and this permission notice shall be       
-* included in all copies or substantial portions of the Software.      
-*                                                                      
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,      
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF   
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be
+* included in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE    
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.               
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 // TODO: Implement some simple STL containers
@@ -44,6 +44,11 @@ Robot::Robot()
 {
   m_robo = new CLinkbotI();
 }
+Robot::~Robot()
+{
+  delete m_robo;
+  m_robo = NULL;
+}
 
 void Robot::init(double x, double y, double angle, double radius)
 {
@@ -52,22 +57,21 @@ void Robot::init(double x, double y, double angle, double radius)
   m_radius = radius;
 }
 
-Robot::~Robot()
-{
-  delete m_robo;
-  m_robo = NULL;
-}
 
 void Robot::drive(double distance)
 {
   m_robo->driveDistance(distance, m_radius);
 }
 
+void Robot::driveNB(double distance)
+{
+  m_robo->driveDistanceNB(distance, m_radius);
+}
+
 void Robot::driveTo(double x, double y)
 {
   m_robo->drivexyTo(x, y, m_radius, TRACKWIDTH);
 }
-
 void Robot::driveToNB(double x, double y)
 {
   m_robo->drivexyToNB(x, y, m_radius, TRACKWIDTH);
@@ -81,7 +85,7 @@ void Robot::driveShape(int kind_shape, double side_length)
   {
     turnArc(side_length, 360);
   }
-  
+
   int i;
   double angle = (360/kind_shape);
   for(i = 0; i < kind_shape; i++)
@@ -97,6 +101,13 @@ void Robot::turn(double degrees)
     m_robo->turnRight(degrees, m_radius, TRACKWIDTH);
   else
     m_robo->turnLeft(-degrees, m_radius, TRACKWIDTH);
+}
+void Robot::turnNB(double degrees)
+{
+  if(degrees > 0)
+    m_robo->turnRightNB(degrees, m_radius, TRACKWIDTH);
+  else
+    m_robo->turnLeftNB(-degrees, m_radius, TRACKWIDTH);
 }
 
 void Robot::turnArc(double radius, double degrees)
@@ -136,7 +147,11 @@ void Robot::turnArc(double radius, double degrees)
 
 void Robot::wait(double seconds)
 {
-  m_robo->delaySeconds(seconds);
+  sleep(seconds);
+}
+void Robot::waitMillis(double milliseconds)
+{
+  sleep(milliseconds / 1000);
 }
 
 CLinkbotI *Robot::getRobot()

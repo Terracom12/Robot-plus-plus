@@ -3,8 +3,8 @@
 
 #ifndef VEC_2
 #define VEC_2
-typedef struct 
-{ 
+typedef struct
+{
   double x;
   double y;
 } vec2;
@@ -19,7 +19,7 @@ typedef struct
 } vec2_array;
 #endif // VEC_2_ARRAY
 
-bool Robot::drivePathTo(vec2_array points_arr, vec2 start_point, vec2 goal_point, 
+bool Robot::drivePathTo(vec2_array points_arr, vec2 start_point, vec2 goal_point,
                         double points_x_distance, double points_y_distance)
 {
     vec2 *points = points_arr.data;
@@ -83,7 +83,7 @@ bool Robot::drivePathTo(vec2_array points_arr, vec2 start_point, vec2 goal_point
         free(neigh);
 
         return result;
-    }
+      }
     vec2 find_point(vec2 point)
     {
         int i;
@@ -148,7 +148,7 @@ bool Robot::drivePathTo(vec2_array points_arr, vec2 start_point, vec2 goal_point
     /* Summary of this loop:
     *
     * Get the first point on the frontier, then check if we are at the exit. If so, then exit the
-    * loop. Get all of the neighbors to the point `current`. Then loop through all of the 
+    * loop. Get all of the neighbors to the point `current`. Then loop through all of the
     * neighbors. If the neighbor has not been visited yet, then add it to the end of the frontier
     * and save where it came from.
     */
@@ -166,7 +166,7 @@ bool Robot::drivePathTo(vec2_array points_arr, vec2 start_point, vec2 goal_point
 
         int i;
         for(i = 0; i < current_neighbors.size; i++)
-        { 
+        {
             if(!visited(current_neighbors.data[i]))
             {
                 frontier.data[num_frontier++] = current_neighbors.data[i];
@@ -245,7 +245,7 @@ bool Robot::drivePathTo(vec2_array points_arr, vec2 start_point, vec2 goal_point
                 break;
             }
             direction = 1;
-            
+
             drive(points_y_distance);
         }
         else if(position.x == (next.x-1) && position.y == next.y)
@@ -317,9 +317,9 @@ bool Robot::drivePathTo(vec2_array points_arr, vec2 start_point, vec2 goal_point
     return true;
 }
 
-vec2_array create_grid(size_t width, size_t height, bool include_zero, int num_delete_points, ...)
+vec2_array create_grid(size_t width, size_t height, bool include_zero, ...)
 {
-    size_t size = (width * height) - num_delete_points;
+    size_t size = (width * height);
     vec2_array arr = init_array(size);
     size_t num_arr = 0;
 
@@ -329,8 +329,10 @@ vec2_array create_grid(size_t width, size_t height, bool include_zero, int num_d
     // Add 1 to the max of the loop if 0 is not included
     size_t end_add = (include_zero ? 0 : 1);
 
-    vec2_array delete_points; 
+    vec2_array delete_points;
     size_t num_delete = 0;
+
+    int num_delete_points;
 
     if(num_delete_points > 0)
     {
@@ -339,13 +341,17 @@ vec2_array create_grid(size_t width, size_t height, bool include_zero, int num_d
         va_list vl;
         va_start(vl, num_delete_points);
 
+        num_delete_points = va_count(vl);
+
+        size -= num_delete_points;
+
 
         // Add all of the va_args to the `delete_points` array
-        while(num_delete_points > 0)
+        /*while(num_delete_points > 0)
         {
             delete_points.data[num_delete++] = va_arg(vl, vec2);
             num_delete_points--;
-        }
+        }*/
 
         va_end(vl);
     }
@@ -356,7 +362,7 @@ vec2_array create_grid(size_t width, size_t height, bool include_zero, int num_d
     for(x = start; x < (width+end_add); x++)
     {
         for(y = start; y < (height+end_add); y++)
-        {   
+        {
             /*for(i = 0; i < num_delete; i++)
             {
                 if(x == delete_points.data[i].x && y == delete_points.data[i].y)
@@ -376,7 +382,7 @@ vec2_array create_grid(size_t width, size_t height, bool include_zero, int num_d
     }
 
     free(delete_points.data);
-    
+
     printf("Points: (%d)\n", arr.size);
     for(i = 0; i < arr.size; i++)
         printf("\tpoint = (%.0lf, %.0lf)\n", arr.data[i].x, arr.data[i].y);

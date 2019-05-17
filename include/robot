@@ -1,24 +1,24 @@
 /*
-* Copyright (c) 2019 Matthew Reese                            
-*                                                                      
+* Copyright (c) 2019 Matthew Reese
+*
 * Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the      
-* "Software"), to deal in the Software without restriction, including  
-* without limitation the rights to use, copy, modify, merge, publish,  
-* distribute, sublicense, and/or sell copies of the Software, and to   
+* a copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
 * permit persons to whom the Software is furnished to do so, subject to
-* the following conditions:                                            
-*                                                                      
-* The above copyright notice and this permission notice shall be       
-* included in all copies or substantial portions of the Software.      
-*                                                                      
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,      
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF   
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be
+* included in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE    
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.               
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifndef ROBOT_
@@ -48,8 +48,8 @@ enum {
 
 #ifndef VEC_2
 #define VEC_2
-typedef struct 
-{ 
+typedef struct
+{
   double x;
   double y;
 } vec2;
@@ -71,17 +71,23 @@ public:
   void init(double x, double y, double angle, double radius);
 
   void drive(double distance);
+  void driveNB(double distance);
   void driveTo(double x, double y);
   void driveToNB(double x, double y);
   bool drivePathTo(vec2_array points, vec2 start, vec2 goal, double points_x_distance, double points_y_distance);
   void turn(double degrees);
+  void turnNB(double degrees);
   void turnArc(double radius, double degrees);
+  void turnArcNB(double radius, double degrees);
 
   void driveShape(int kind_shape, double side_length);
 
   void wait(double seconds);
+  void waitMillis(double milliseconds);
 
   //void LED(const char *color);
+
+  // TODO: `face` method
 
   CLinkbotI *getRobot();
   vec2 getPosition();
