@@ -339,19 +339,25 @@ vec2_array create_grid(size_t width, size_t height, bool include_zero, ...)
         delete_points = init_array(num_delete_points);
 
         va_list vl;
-        va_start(vl, num_delete_points);
+        va_start(vl, VA_NO_ARG);
 
-        num_delete_points = va_count(vl);
+        if(va_arraytype(vl) == CH_UNDEFINETYPE)
+        {
+          num_delete_points = va_count(vl);
+          // Add all of the va_args to the `delete_points` array
+            while(num_delete_points > 0)
+            {
+            delete_points.data[num_delete++] = va_arg(vl, vec2);
+            num_delete_points--;
+            }
+        }
+        if(va_arraytype(vl) == CH_CHARRAYTYPE || va_arraytype(vl) == CH_CARRAYTYPE)
+          num_delete_points = va_arraynum(vl);
 
         size -= num_delete_points;
 
 
-        // Add all of the va_args to the `delete_points` array
-        /*while(num_delete_points > 0)
-        {
-            delete_points.data[num_delete++] = va_arg(vl, vec2);
-            num_delete_points--;
-        }*/
+        
 
         va_end(vl);
     }

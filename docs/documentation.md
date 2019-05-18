@@ -1,13 +1,13 @@
 # Robot Documentation
-<img height="310" src="robot.png"></img>
-___
-## **Initalization:**
+## Robot Class
+<img height="150" src="robot.png"></img>
+### Initalization:
 Using the simplified `Robot` is simple all you have to do is include the `robot.h` file into where you want to use it.
 ```cpp
 #include <robot>
 ```
 If you put the robot in a different folder/path, all you have to do is put the path to the `robot.h` file in.
-**Example:**
+Example:
 ```cpp
 // robot.h is in the `include` folder
 #include <include/robot>
@@ -39,7 +39,7 @@ The first argument (aka parameter) of the `init` method is the robot's position 
 
 (et cetera)
 
-## **The Basics:**
+### The Basics:
 The first basic method of the Robot class is `drive`.
 ```cpp
 Robot robo;
@@ -61,7 +61,7 @@ robo.driveShape(TRIANGLE, 10);
 ```
 The first argument to the `driveShape` method is the shape type. It supports all shapes from triangle to decagon, **the shape name must be in caps**. Circles are also supported. The second argument is the side length of the shape that you want the robot to drive, or if you want to draw a circle, the circumferce. **IMPORTANT! THE CIRCUMFERENCE OF A CIRCLE CANNOT BE LESS THAN 2!**
 
-## **Intermediate:**
+### Intermediate:
 *These are the methods that you will probably use less often, and are a bit more challenging to use and understand.*
 
 The first, and simplest method you'll find in this section is `driveTo`.
@@ -84,7 +84,7 @@ Robot robo;
 robo.wait(20); // Takes in the number of seconds
 robo.waitMillis(250); // Takes in the number of milliseconds
 ```
-## **Advanced:**
+## Advanced:
 *These are the methods that you will probably hardly use, and are more challenging to use and understand. If you have any questions about these, __please ask me!__*
 
 The first more advanced methods are `getPosition` and `getRotation`. These methods will give you the robot's current position and rotation.
@@ -116,4 +116,18 @@ childRobot = robo.getRobot();
 childRobot->driveDistance(10, 1.75);
 childRobot->turnRight(90, 1.75, 3.69);
 ```
-This is probably hard to understand because it's the first time that you have been introduced to a concept called pointers. If you want to use this meth
+This is probably hard to understand because it's the first time that you have been introduced to a concept called pointers. If you want to run a function on the CLinkbotI, then you have to use `{name of your CLinkbotI}->{name of the function}`.
+
+The last, and definitely most advanced method is `drivePathTo`. This method will have the robot find and drive a path to a certain point, given that the robot can only drive on a 2D grid. Here is an example:
+```cpp
+Robot robo;
+```
+### Non-Blocking Functions
+*These are the functions that will not block the execution of your program*
+```cpp
+Robot robo;
+robo.driveNB(10);
+robo.turnNB(90);
+robo.driveToNB(10, 10);
+robo.turnArcNB(10, 90);
+```
