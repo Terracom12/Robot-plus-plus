@@ -26,7 +26,9 @@ bool Robot::drivePathTo(vec2_array points_arr, vec2 start_point, vec2 goal_point
     size_t num_points = points_arr.size;
 
     size_t start = find(points_arr, start_point);
+    printf("S (%d)", start);
     size_t goal = find(points_arr, goal_point);
+    printf("G (%d)", goal);
 
     typedef struct { vec2 key; vec2 value; } point_to_point;
 
